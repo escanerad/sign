@@ -69,7 +69,7 @@
                 class="alert alert-warning row"
                 role="alert"
                 style="margin: 0px"
-                t-if="!isMobile"
+                t-if="!this.isMobile"
             >
                 In order to add a new field, do a right click over the PDF page. You will be able to select the field that you will import.
                 Then, you can move and resize the fields over the PDF page using the move icons.

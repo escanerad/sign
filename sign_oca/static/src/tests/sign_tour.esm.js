@@ -1,45 +1,23 @@
 /* Copyright 2025 Kencove - Mohamed Alkobrosli
    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). */
-odoo.define("sign_oca.sign_tour", function (require) {
-    var tour = require("web_tour.tour");
+import {registry} from "@web/core/registry";
 
-    var steps = [
+registry.category("web_tour.tours").add("test_sign_tour", {
+    url: "/my",
+    steps: () => [
         {
-            trigger: "a:contains('Your Documents to be Signed')",
+            content: "The portal home lists the signature requests",
+            trigger: "a[href='/my/sign_requests']",
         },
-    ];
-
-    tour.register(
-        "test_sign_tour",
-        {
-            url: "/my",
-            test: true,
-        },
-        steps
-    );
-    return {
-        steps: steps,
-    };
+    ],
 });
 
-odoo.define("sign_oca.sign_doc_tour", function (require) {
-    var tour = require("web_tour.tour");
-
-    var steps = [
+registry.category("web_tour.tours").add("test_sign_doc_tour", {
+    url: "/my/sign_requests",
+    steps: () => [
         {
+            content: "The request to sign is listed",
             trigger: "td a",
         },
-    ];
-
-    tour.register(
-        "test_sign_doc_tour",
-        {
-            url: "/my/sign_requests",
-            test: true,
-        },
-        steps
-    );
-    return {
-        steps: steps,
-    };
+    ],
 });

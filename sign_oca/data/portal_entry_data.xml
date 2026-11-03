@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2025 Kencove
+License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Odoo 20: the cards of the portal home are portal.entry records. -->
+    <record id="portal_sign_requests" model="portal.entry">
+        <field name="name">Signature Requests</field>
+        <field name="description">View, or sign documents</field>
+        <field name="url">/my/sign_requests</field>
+        <field
+            name="image"
+            type="bytes"
+            file="web/static/img/mimetypes/document.svg"
+        />
+        <field name="placeholder_count">sign_oca_count</field>
+    </record>
+</odoo>

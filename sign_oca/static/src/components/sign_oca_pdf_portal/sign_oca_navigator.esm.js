@@ -58,10 +58,10 @@ export function startSignItemNavigator(parent, target, env) {
         started: false,
         isScrolling: false,
     };
-    const navigator = parent.iframe.el.contentDocument.getElementsByClassName(
+    const navigator = parent.iframe().contentDocument.getElementsByClassName(
         "o_sign_sign_item_navigator"
     )[0];
-    const navLine = parent.iframe.el.contentDocument.getElementsByClassName(
+    const navLine = parent.iframe().contentDocument.getElementsByClassName(
         "o_sign_sign_item_navline"
     )[0];
     const checkSignItemsCompletion = sortItemsForArrow(parent);
@@ -80,7 +80,7 @@ export function startSignItemNavigator(parent, target, env) {
             }
 
             state.isScrolling = true;
-            const viewer = parent.iframe.el.contentDocument.getElementById("viewer");
+            const viewer = parent.iframe().contentDocument.getElementById("viewer");
 
             // Recalculate container height each time
             const containerHeight = target.offsetHeight;

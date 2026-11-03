@@ -4,7 +4,7 @@
 import hashlib
 import json
 import logging
-from base64 import b64decode, b64encode
+from base64 import b64decode
 from hashlib import sha256
 from io import BytesIO
 
@@ -18,6 +18,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.http import request
 from odoo.tools import float_repr
+from odoo.tools.binary import BinaryBytes
 from odoo.tools.pdf import PdfReader, PdfWriter
 
 _logger = logging.getLogger(__name__)
@@ -116,7 +117,7 @@ class SignOcaRequest(models.Model):
     def sign(self):
         self.ensure_one()
         if not self.signer_id:
-            return self.get_formview_action()
+            return self.get_record_default_action()
         return self.signer_id.sign()
 
     @api.depends("signatory_data")
@@ -443,7 +444,7 @@ class SignOcaRequestSigner(models.Model):
         # current_hash = self.request_id.current_hash
         signatory_data = self.request_id.signatory_data or {}
 
-        input_data = BytesIO(b64decode(self.request_id.data))
+        input_data = BytesIO(self.request_id.data.content)
         reader = PdfReader(input_data)
         output = PdfWriter()
         pages = {}
@@ -471,7 +472,7 @@ class SignOcaRequestSigner(models.Model):
         self.request_id.write(
             {
                 "signatory_data": signatory_data,
-                "data": b64encode(signed_pdf),
+                "data": BinaryBytes(signed_pdf),
                 "current_hash": final_hash,
             }
         )

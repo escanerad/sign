@@ -18,7 +18,7 @@ class SignOcaCommon:
                 misc.file_path(f"{cls.test_module}/tests/empty.pdf"),
                 "rb",
             ).read()
-        )
+        ).decode()
         cls.role_customer = cls.env.ref("sign_oca.sign_role_customer")
         cls.partner = cls.env["res.partner"].create({"name": "Test partner"})
         cls.partner_child = cls.env["res.partner"].create(

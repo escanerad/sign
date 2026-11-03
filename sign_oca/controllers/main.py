@@ -77,9 +77,11 @@ class PortalSign(CustomerPortal):
             )
         except (AccessError, MissingError):
             return request.redirect("/my")
-        return http.Stream.from_binary_field(
-            signer_sudo.request_id, "data"
-        ).get_response(mimetype="application/pdf")
+        return (
+            request.env["ir.binary"]
+            ._record_to_stream(signer_sudo.request_id, "data")
+            .get_response(mimetype="application/pdf")
+        )
 
     @http.route(
         ["/sign_oca/info/<int:signer_id>/<string:access_token>"],
@@ -183,13 +185,15 @@ class PortalSign(CustomerPortal):
         )
         return values
 
-    def _prepare_home_portal_values(self, counters):
-        values = super()._prepare_home_portal_values(counters)
-        if "sign_oca_count" in counters:
-            domain = self.get_sign_requests_domain(request)
-            SignRequests = request.env["sign.oca.request.signer"].sudo()
-            values["sign_oca_count"] = SignRequests.search_count(domain)
-        return values
+    def _prepare_portal_counter_values(self, counter):
+        # Odoo 20: the counters of the portal cards (portal.entry) are computed here.
+        if counter == "sign_oca_count":
+            return (
+                "sign.oca.request.signer",
+                self.get_sign_requests_domain(request),
+                "sudo",
+            )
+        return super()._prepare_portal_counter_values(counter)
 
     @http.route(
         ["/my/sign_requests", "/my/sign_requests/page/<int:page>"],

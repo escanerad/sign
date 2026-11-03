@@ -3,7 +3,7 @@
 
 import SignOcaPdfCommon from "../sign_oca_pdf_common/sign_oca_pdf_common.esm.js";
 import {registry} from "@web/core/registry";
-import {renderToString} from "@web/core/utils/render";
+import {renderToElement} from "@web/core/utils/render";
 const SignRegistry = registry.category("sign_oca");
 import {useService} from "@web/core/utils/hooks";
 
@@ -20,21 +20,19 @@ export default class SignOcaPdf extends SignOcaPdfCommon {
     checkToSign() {
         this.props.updateControlPanel({
             cp_content: {
-                $buttons: this.renderButtons(this.to_sign_update),
+                buttons: this.renderButtons(this.to_sign_update),
             },
         });
         this.to_sign = this.to_sign_update;
     }
     renderButtons(to_sign) {
-        var $buttons = $(
-            renderToString("oca_sign_oca.SignatureButtons", {
-                to_sign: to_sign,
-            })
-        );
-        $buttons.on("click.o_sign_oca_button_sign", () => {
+        const buttons = renderToElement("oca_sign_oca.SignatureButtons", {
+            to_sign: to_sign,
+        });
+        buttons.addEventListener("click", () => {
             this.signOca();
         });
-        return $buttons;
+        return buttons;
     }
     async getLocation() {
         if (!this.info.ask_location || !navigator.geolocation) {
@@ -112,7 +110,7 @@ export default class SignOcaPdf extends SignOcaPdfCommon {
     postIframeField(item) {
         if (item.role_id === this.info.role_id) {
             var signatureItem = super.postIframeField(...arguments);
-            signatureItem[0].append(
+            signatureItem.append(
                 SignRegistry.get(item.field_type).generate(this, item, signatureItem)
             );
             return signatureItem;
@@ -130,6 +128,3 @@ export default class SignOcaPdf extends SignOcaPdfCommon {
         this.checkToSign();
     }
 }
-SignOcaPdf.props = {
-    to_sign: {type: Boolean, optional: true},
-};
