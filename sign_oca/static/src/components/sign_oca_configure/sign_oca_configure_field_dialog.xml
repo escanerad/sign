@@ -6,7 +6,11 @@
                 <label for="field_id">Field</label>
                 <div class="o_sign_oca_field_edition_value">
                     <select name="field_id">
-                        <t t-foreach="this.props.info.fields" t-as="field" t-key="field.id">
+                        <t
+                            t-foreach="this.props.info.fields"
+                            t-as="field"
+                            t-key="field.id"
+                        >
                             <option
                                 t-att-value="field.id"
                                 t-out="field.name"
@@ -18,7 +22,11 @@
                 <label for="role_id">Filled by</label>
                 <div class="o_sign_oca_field_edition_value">
                     <select name="role_id">
-                        <t t-foreach="this.props.info.roles" t-as="role" t-key="role.id">
+                        <t
+                            t-foreach="this.props.info.roles"
+                            t-as="role"
+                            t-key="role.id"
+                        >
                             <option
                                 t-att-value="role.id"
                                 t-out="role.name"
@@ -47,7 +55,10 @@
             <t t-set-slot="footer">
                 <button class="btn btn-primary" t-on-click="this._confirm">Save</button>
                 <button class="btn btn-danger" t-on-click="this._delete">Delete</button>
-                <button class="btn btn-secondary" t-on-click="this._cancel">Cancel</button>
+                <button
+                    class="btn btn-secondary"
+                    t-on-click="this._cancel"
+                >Cancel</button>
             </t>
         </Dialog>
     </t>

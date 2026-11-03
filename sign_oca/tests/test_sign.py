@@ -9,7 +9,8 @@ from .common import SignOcaCommon
 
 
 class TestSign(SignOcaCommon, BaseCommon):
-    # Odoo 20: BaseCommon runs each test as a test user with these groups (it was the superuser).
+    # Odoo 20: BaseCommon runs each test as a test user with these groups
+    # (it was the superuser).
     _test_user_groups = (
         "base.group_user",
         "base.group_partner_manager",

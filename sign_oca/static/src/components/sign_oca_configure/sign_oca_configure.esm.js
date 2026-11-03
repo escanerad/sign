@@ -1,5 +1,3 @@
-/** @odoo-module **/
-
 import {ControlPanel} from "@web/search/control_panel/control_panel";
 import {SignOcaConfigureFieldDialog} from "./sign_oca_configure_field_dialog.esm";
 import {isMobileOS} from "@web/core/browser/feature_detection";
@@ -101,8 +99,7 @@ export default class SignOcaConfigure extends SignOcaPdfCommon {
     }
     postIframeField(item) {
         var signatureItem = super.postIframeField(...arguments);
-        var dragItem =
-            signatureItem.getElementsByClassName("o_sign_oca_draggable")[0];
+        var dragItem = signatureItem.getElementsByClassName("o_sign_oca_draggable")[0];
         var resizeItems = signatureItem.getElementsByClassName("o_sign_oca_resize");
         signatureItem.addEventListener(
             "click",

@@ -26,7 +26,7 @@ _logger = logging.getLogger(__name__)
 
 class SignOcaRequest(models.Model):
     _name = "sign.oca.request"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]  # noqa: RUF012
     _description = "Sign Request"
     _order = "state, id desc"
 
@@ -62,7 +62,6 @@ class SignOcaRequest(models.Model):
         comodel_name="sign.oca.request.signer",
         compute="_compute_signer_id",
         help="The signer related to the active user.",
-        string="Signer",
     )
     state = fields.Selection(
         [
@@ -125,7 +124,7 @@ class SignOcaRequest(models.Model):
         for record in self:
             record.next_item_id = (
                 record.signatory_data
-                and max([int(key) for key in record.signatory_data.keys()])
+                and max(int(key) for key in record.signatory_data)
                 or 0
             ) + 1
 
@@ -337,7 +336,7 @@ class SignOcaRequest(models.Model):
 
 class SignOcaRequestSigner(models.Model):
     _name = "sign.oca.request.signer"
-    _inherit = ["portal.mixin", "mail.thread", "mail.activity.mixin"]
+    _inherit = ["portal.mixin", "mail.thread", "mail.activity.mixin"]  # noqa: RUF012
     _description = "Sign Request Value"
     _order = "signed_on desc, create_date desc, id desc"
 
@@ -461,8 +460,8 @@ class SignOcaRequestSigner(models.Model):
                 if new_page:
                     page.mergePage(new_page)
                 pages[item["page"]] = page
-        for page_number in pages:
-            output.addPage(pages[page_number])
+        for page in pages.values():
+            output.addPage(page)
         output_stream = BytesIO()
         output.write(output_stream)
         output_stream.seek(0)
@@ -581,7 +580,7 @@ class SignOcaRequestSigner(models.Model):
                 / 100
                 * float(box.getHeight()),
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             _logger.info(f"Error decoding Base64 string: {e}")
             return False
         can.save()
@@ -606,8 +605,10 @@ class SignOcaRequestSigner(models.Model):
         )
 
     @api.depends(
-        lambda r: ["request_id.data", "inalterable_hash", "secure_sequence_number"]
-        + r._get_integrity_hash_fields()
+        lambda r: (
+            ["request_id.data", "inalterable_hash", "secure_sequence_number"]
+            + r._get_integrity_hash_fields()
+        )
     )
     def _compute_altered_hash(self):
         for record in self:
@@ -672,9 +673,8 @@ class SignOcaRequestSigner(models.Model):
 
 class SignRequestLog(models.Model):
     _name = "sign.oca.request.log"
-    _description = "Sign Request Log"
-    _log_access = False
     _description = "Log access and edition on requests"
+    _log_access = False
 
     uid = fields.Many2one(
         "res.users",

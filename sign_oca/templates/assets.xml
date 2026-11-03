@@ -8,11 +8,7 @@
                 name="viewport"
                 content="width=device-width, initial-scale=1, user-scalable=no"
             />
-            <input
-                type="hidden"
-                name="csrf_token"
-                t-att-value="request.csrf_token()"
-            />
+            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
             <t t-call-assets="oca_sign.assets_frontend_sign" t-js="false" />
             <t t-call-assets="oca_sign.assets_frontend_sign" t-css="false" />
             <script type="text/javascript">
@@ -36,7 +32,6 @@
             <t t-call-assets="oca_sign.assets_frontend_sign" t-js="false" />
         </t>
         <t t-call="web.layout" head="head">
-
             <div class="container">
                 <div class="o_logo">
                     <img

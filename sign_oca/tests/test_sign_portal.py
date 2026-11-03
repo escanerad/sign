@@ -88,7 +88,9 @@ function step() {
     if (viewer && viewer.classList.contains("sign_oca_ready") && input) {
         const button = document.getElementById("sign_oca_button");
         if (!button || !button.disabled) {
-            console.error("The sign button is enabled before the required field is filled");
+            console.error(
+                "The sign button is enabled before the required field is filled"
+            );
             return;
         }
         input.value = "Synthetic signer";
@@ -108,7 +110,10 @@ function step() {
                     viewer: viewer && viewer.className,
                     pages: doc ? doc.getElementsByClassName("page").length : -1,
                     fields: doc ? doc.querySelectorAll(".o_sign_oca_field").length : -1,
-                    error: doc && doc.getElementById("errorWrapper") && doc.getElementById("errorWrapper").textContent,
+                    error:
+                        doc &&
+                        doc.getElementById("errorWrapper") &&
+                        doc.getElementById("errorWrapper").textContent,
                 })
         );
         return;
@@ -170,7 +175,9 @@ class TestSignPortalBrowser(SignOcaCommon, HttpCase):
 
     def test_portal_tours(self):
         self.start_tour("/my", "test_sign_tour", login="portal_signer")
-        self.start_tour("/my/sign_requests", "test_sign_doc_tour", login="portal_signer")
+        self.start_tour(
+            "/my/sign_requests", "test_sign_doc_tour", login="portal_signer"
+        )
 
     def test_sign_page(self):
         signer = self.request.signer_ids
@@ -185,7 +192,11 @@ CONFIGURE_CHECK = """
 const start = Date.now();
 Promise.resolve()
     .then(() => odoo.__WOWL_DEBUG__.root.env.services.action.doAction(%(action)s))
-    .catch((error) => console.error("The configuration action failed: " + error + (error && error.stack)));
+    .catch((error) =>
+        console.error(
+            "The configuration action failed: " + error + (error && error.stack)
+        )
+    );
 function step() {
     const iframe = document.querySelector(".o_action_manager iframe.o_sign_oca_iframe");
     const doc = iframe && iframe.contentDocument;
@@ -196,6 +207,7 @@ function step() {
         return;
     }
     if (Date.now() - start > 50000) {
+        const manager = document.querySelector(".o_action_manager");
         console.error(
             "The configuration screen did not show the template field: " +
                 JSON.stringify({
@@ -203,8 +215,8 @@ function step() {
                     viewer: viewer && viewer.className,
                     pages: doc ? doc.getElementsByClassName("page").length : -1,
                     fields: doc ? doc.querySelectorAll(".o_sign_oca_field").length : -1,
-                    action: (document.querySelector(".o_action_manager") || {}).className,
-                    content: (document.querySelector(".o_action_manager") || document.body).innerHTML.slice(0, 400),
+                    action: (manager || {}).className,
+                    content: (manager || document.body).innerHTML.slice(0, 400),
                 })
         );
         return;
@@ -225,7 +237,9 @@ class TestSignConfigureBrowser(SignOcaCommon, HttpCase):
         cls.template = cls.env["sign.oca.template"].create(
             {"data": cls.data, "name": "Demo template", "filename": "empty.pdf"}
         )
-        cls.env.ref("base.user_admin").group_ids += cls.env.ref("sign_oca.sign_oca_group_admin")
+        cls.env.ref("base.user_admin").group_ids += cls.env.ref(
+            "sign_oca.sign_oca_group_admin"
+        )
         cls.template.add_item(
             {
                 "field_id": cls.env.ref("sign_oca.sign_field_name").id,

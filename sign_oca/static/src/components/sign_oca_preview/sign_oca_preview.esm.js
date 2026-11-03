@@ -1,4 +1,3 @@
-/** @odoo-module QWeb **/
 import {ControlPanel} from "@web/search/control_panel/control_panel";
 import SignOcaPdfCommon from "../sign_oca_pdf_common/sign_oca_pdf_common.esm.js";
 import {registry} from "@web/core/registry";

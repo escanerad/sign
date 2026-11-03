@@ -1,5 +1,3 @@
-/** @odoo-module QWeb **/
-/* global document, window, Event, KeyboardEvent, console */
 import {_t} from "@web/core/l10n/translation";
 
 export function offset(el) {
@@ -58,12 +56,12 @@ export function startSignItemNavigator(parent, target, env) {
         started: false,
         isScrolling: false,
     };
-    const navigator = parent.iframe().contentDocument.getElementsByClassName(
-        "o_sign_sign_item_navigator"
-    )[0];
-    const navLine = parent.iframe().contentDocument.getElementsByClassName(
-        "o_sign_sign_item_navline"
-    )[0];
+    const navigator = parent
+        .iframe()
+        .contentDocument.getElementsByClassName("o_sign_sign_item_navigator")[0];
+    const navLine = parent
+        .iframe()
+        .contentDocument.getElementsByClassName("o_sign_sign_item_navline")[0];
     const checkSignItemsCompletion = sortItemsForArrow(parent);
     let signItemsToComplete = checkSignItemsCompletion;
 

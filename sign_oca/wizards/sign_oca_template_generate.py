@@ -14,10 +14,18 @@ class SignOcaTemplateGenerate(models.TransientModel):
         )
         if not template:
             return []
-        # Odoo 20: the default of a line no longer sees the role given in the same values.
+        # Odoo 20: the default of a line no longer sees the role given in the
+        # same values.
         signer = self.env["sign.oca.template.generate.signer"]
         return [
-            (0, 0, {"role_id": role.id, "partner_id": signer._get_default_partner(role).id})
+            (
+                0,
+                0,
+                {
+                    "role_id": role.id,
+                    "partner_id": signer._get_default_partner(role).id,
+                },
+            )
             for role in template.item_ids.role_id
         ]
 

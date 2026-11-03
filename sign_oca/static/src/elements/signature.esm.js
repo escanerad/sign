@@ -1,6 +1,3 @@
-/** @odoo-module **/
-/* global Event */
-
 import {SignatureDialog} from "@web/core/signature/signature_dialog";
 import {registry} from "@web/core/registry";
 import {htmlToElement} from "../components/sign_oca_pdf_common/sign_oca_pdf_common.esm.js";

@@ -1,6 +1,3 @@
-/** @odoo-module **/
-/* global window, document */
-
 import {signal, t, useProps, whenReady} from "@odoo/owl";
 import {mountComponent} from "@web/env";
 import SignOcaPdf from "../sign_oca_pdf/sign_oca_pdf.esm.js";
@@ -48,7 +45,10 @@ export class SignOcaPdfPortal extends SignOcaPdf {
         // Is essential to make sure the navigator will never duplicate
         const iframeDocument = this.iframe().contentDocument;
         const target = iframeDocument.getElementById("viewerContainer");
-        for (const className of ["o_sign_sign_item_navline", "o_sign_sign_item_navigator"]) {
+        for (const className of [
+            "o_sign_sign_item_navline",
+            "o_sign_sign_item_navigator",
+        ]) {
             if (iframeDocument.getElementsByClassName(className).length === 0) {
                 const element = iframeDocument.createElement("div");
                 element.classList.add(className);

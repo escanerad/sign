@@ -1,4 +1,3 @@
-/** @odoo-module */
 /* Copyright 2024 Tecnativa - Carlos Roca
  * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). */
 
@@ -6,7 +5,8 @@ import {Dialog} from "@web/core/dialog/dialog";
 import {Component, signal, t, useProps} from "@odoo/owl";
 
 const isValidTitle = (m) =>
-    typeof m === "string" || (typeof m === "object" && typeof m.toString === "function");
+    typeof m === "string" ||
+    (typeof m === "object" && typeof m.toString === "function");
 
 export class SignOcaConfigureFieldDialog extends Component {
     props = useProps({

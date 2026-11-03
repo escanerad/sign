@@ -18,7 +18,9 @@
                 </div>
             </t>
             <t t-set-slot="content">
-                <div t-att-class="`${this.discussSystray.contentClass} o-mail-ActivityMenu`">
+                <div
+                    t-att-class="`${this.discussSystray.contentClass} o-mail-ActivityMenu`"
+                >
                     <div
                         t-if="this.state.signerCounter === 0"
                         class="o-mail-ActivityMenu-empty align-items-center text-muted p-2 opacity-50 d-flex justify-content-center"
