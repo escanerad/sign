@@ -456,12 +456,12 @@ class SignOcaRequestSigner(models.Model):
                 self._check_signable(items[key])
                 item = items[key]
                 page = pages[item["page"]]
-                new_page = self._get_pdf_page(item, page.mediaBox)
+                new_page = self._get_pdf_page(item, page.mediabox)
                 if new_page:
-                    page.mergePage(new_page)
+                    page.merge_page(new_page)
                 pages[item["page"]] = page
         for page in pages.values():
-            output.addPage(page)
+            output.add_page(page)
         output_stream = BytesIO()
         output.write(output_stream)
         output_stream.seek(0)
@@ -505,18 +505,19 @@ class SignOcaRequestSigner(models.Model):
 
     def _get_pdf_page_text(self, item, box):
         packet = BytesIO()
-        can = canvas.Canvas(packet, pagesize=(box.getWidth(), box.getHeight()))
+        box_width, box_height = float(box.width), float(box.height)
+        can = canvas.Canvas(packet, pagesize=(box_width, box_height))
         if not item["value"]:
             return False
         par = Paragraph(item["value"], style=self._getParagraphStyle())
         par.wrap(
-            item["width"] / 100 * float(box.getWidth()),
-            item["height"] / 100 * float(box.getHeight()),
+            item["width"] / 100 * box_width,
+            item["height"] / 100 * box_height,
         )
         par.drawOn(
             can,
-            item["position_x"] / 100 * float(box.getWidth()),
-            (100 - item["position_y"] - item["height"]) / 100 * float(box.getHeight()),
+            item["position_x"] / 100 * box_width,
+            (100 - item["position_y"] - item["height"]) / 100 * box_height,
         )
         can.save()
         packet.seek(0)
@@ -528,9 +529,10 @@ class SignOcaRequestSigner(models.Model):
 
     def _get_pdf_page_check(self, item, box):
         packet = BytesIO()
-        can = canvas.Canvas(packet, pagesize=(box.getWidth(), box.getHeight()))
-        width = item["width"] / 100 * float(box.getWidth())
-        height = item["height"] / 100 * float(box.getHeight())
+        box_width, box_height = float(box.width), float(box.height)
+        can = canvas.Canvas(packet, pagesize=(box_width, box_height))
+        width = item["width"] / 100 * box_width
+        height = item["height"] / 100 * box_height
         drawing = Drawing(width=width, height=height)
         drawing.add(
             Rect(
@@ -548,8 +550,8 @@ class SignOcaRequestSigner(models.Model):
             drawing.add(Line(0, height, width, 0, strokeColor=black, strokeWidth=3))
         drawing.drawOn(
             can,
-            item["position_x"] / 100 * float(box.getWidth()),
-            (100 - item["position_y"] - item["height"]) / 100 * float(box.getHeight()),
+            item["position_x"] / 100 * box_width,
+            (100 - item["position_y"] - item["height"]) / 100 * box_height,
         )
         can.save()
         packet.seek(0)
@@ -558,7 +560,8 @@ class SignOcaRequestSigner(models.Model):
 
     def _get_pdf_page_signature(self, item, box):
         packet = BytesIO()
-        can = canvas.Canvas(packet, pagesize=(box.getWidth(), box.getHeight()))
+        box_width, box_height = float(box.width), float(box.height)
+        can = canvas.Canvas(packet, pagesize=(box_width, box_height))
         if not item["value"]:
             return False
         try:
@@ -570,15 +573,13 @@ class SignOcaRequestSigner(models.Model):
             image_data = b64decode(base64_str)
             par = Image(
                 BytesIO(image_data),
-                width=item["width"] / 100 * float(box.getWidth()),
-                height=item["height"] / 100 * float(box.getHeight()),
+                width=item["width"] / 100 * box_width,
+                height=item["height"] / 100 * box_height,
             )
             par.drawOn(
                 can,
-                item["position_x"] / 100 * float(box.getWidth()),
-                (100 - item["position_y"] - item["height"])
-                / 100
-                * float(box.getHeight()),
+                item["position_x"] / 100 * box_width,
+                (100 - item["position_y"] - item["height"]) / 100 * box_height,
             )
         except Exception as e:  # noqa: BLE001
             _logger.info(f"Error decoding Base64 string: {e}")
