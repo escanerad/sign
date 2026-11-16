@@ -8,7 +8,7 @@ class SignOcaRole(models.Model):
     _name = "sign.oca.role"
     _description = "Sign Role"
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, translate=True)
     domain = fields.Char(required=True, default=[])
     partner_selection_policy = fields.Selection(
         selection=[

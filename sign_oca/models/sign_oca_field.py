@@ -8,7 +8,7 @@ class SignOcaField(models.Model):
     _name = "sign.oca.field"
     _description = "Signature Field Type"
 
-    name = fields.Char(required=True)
+    name = fields.Char(required=True, translate=True)
     field_type = fields.Selection(
         [("text", "Text"), ("signature", "Signature"), ("check", "Check")],
         required=True,
