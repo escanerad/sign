@@ -67,7 +67,7 @@ export function startSignItemNavigator(parent, target, env) {
 
     function _scrollToSignItemPromise(item) {
         return new Promise((resolve) => {
-            if (env.isSmall) {
+            if (env.services?.ui?.isSmall) {
                 state.isScrolling = true;
                 item.scrollIntoView({
                     behavior: "smooth",
