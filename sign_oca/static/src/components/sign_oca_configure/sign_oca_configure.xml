@@ -2,7 +2,8 @@
 <templates xml:space="preserve">
     <t t-name="sign_oca.SignOcaConfigureButtons">
         <button class="btn btn-primary"><i
-            class="fa fa-question-circle"
+            class="oi"
+            data-icon="help"
         /> Help</button>
         <!--
         <div
@@ -31,12 +32,17 @@
             t-attf-style="position:absolute;top:#{position_y}%; left: #{position_x}%; width: #{width}%;height: #{height}%"
         >
             <span
-                class="fa fa-arrows o_sign_oca_draggable"
+                class="oi o_sign_oca_draggable"
+                data-icon="open_with"
                 role="img"
                 aria-label="Signature configuration"
                 title="Signature configuration"
             />
-            <div class="o_sign_oca_resize fa fa-arrows-alt" style="z-index: 90;" />
+            <div
+                class="o_sign_oca_resize oi"
+                data-icon="resize"
+                style="z-index: 90;"
+            />
             <span class="o_sign_placeholder" t-out="name" />
         </div>
     </t>

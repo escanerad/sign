@@ -9,7 +9,12 @@
         >
             <t t-set-slot="default">
                 <div class="o-mail-DiscussSystray-class cursor-pointer">
-                    <i class="fa fa-pencil" role="img" aria-label="Sign Requests" />
+                    <i
+                        class="oi"
+                        data-icon="edit"
+                        role="img"
+                        aria-label="Sign Requests"
+                    />
                     <span
                         t-if="this.state.signerCounter > 0"
                         class="o-mail-ActivityMenu-counter badge rounded-pill"
