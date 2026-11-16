@@ -88,3 +88,22 @@ registry.category("web_tour.tours").add("test_sign_from_template_hidden_tour", {
         },
     ],
 });
+
+registry.category("web_tour.tours").add("test_sign_systray_tour", {
+    steps: () => [
+        {
+            content: "Open the menu of the requests to sign",
+            trigger: ".o_menu_systray i[aria-label='Sign Requests']",
+            run: "click",
+        },
+        {
+            content: "Open the requests to sign",
+            trigger: ".o-mail-ActivityGroup:contains(1 Pending)",
+            run: "click",
+        },
+        {
+            content: "The request to sign is listed",
+            trigger: ".o_kanban_record:contains(Systray request)",
+        },
+    ],
+});
